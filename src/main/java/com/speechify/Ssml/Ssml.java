@@ -1,5 +1,6 @@
 package com.speechify.Ssml;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,7 +19,44 @@ public class Ssml {
     // Parses SSML to a SSMLNode, throwing on invalid SSML
     public static SSMLNode parseSSML(String ssml) {
         // NOTE: Don't forget to run unescapeXMLChars on the SSMLText
-        throw new UnsupportedOperationException("Implement this function");
+        String inputString = unescapeXMLChars(ssml);
+        if (inputString.isEmpty()){
+            return null;
+        }
+        // Verify if the input string is valid SSML
+
+        /*if (!inputString.startsWith("<") || !inputString.endsWith(">")){
+            throw new IllegalArgumentException("Tags could not be parsed");
+        }*/
+        if (inputString.startsWith("</") && inputString.endsWith(">")){
+            throw new IllegalArgumentException("Tags could not be parsed");
+        }
+        if(inputString.indexOf("<") == -1 || inputString.indexOf(">") == -1){
+            return new SSMLText(inputString);
+        }
+        // Extract the first tag
+        String name = inputString.substring(inputString.indexOf("<")+1, inputString.indexOf(">"));
+        System.out.println(" Value of name " + name);
+        // Extract the attributes
+        // String attributes = inputString.substring(inputString.indexOf("<")+1, inputString.indexOf(">"));
+        // Extract the children
+        String startTag = "<"+name+">";
+        String endTag = "</"+name+">";
+        inputString = removeWord(inputString, startTag);
+        inputString = removeWord(inputString, endTag);
+        if (inputString.isEmpty()){
+            return new SSMLElement(name, Collections.emptyList(), Collections.emptyList());
+        }
+        return new SSMLElement(name, Collections.emptyList(), List.of(parseSSML(inputString)));
+    }
+
+    private static String removeWord(String text, String wordToRemove) {
+        int index = text.indexOf(wordToRemove);
+
+        if (index != -1) {
+            return text.substring(0, index) + text.substring(index + wordToRemove.length());
+        }
+        return text;
     }
 
     // Recursively converts SSML node to string and unescapes XML chars
@@ -38,4 +76,10 @@ public class Ssml {
     public record SSMLAttribute(String name, String value) {}
 
     public record SSMLText(String text) implements SSMLNode {}
+
+    public static void main(String[] args) {
+        parseSSML("<speak><p></p></speak>");
+    }
+
+
 }
