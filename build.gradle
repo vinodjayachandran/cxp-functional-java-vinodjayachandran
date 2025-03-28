@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.speechify'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+
+    reports {
+        junitXml.required.set(true)
+        junitXml.outputLocation.set(file("${buildDir}/test-results/junitXml"))
+        html.required.set(true)
+        html.outputLocation.set(file("${buildDir}/test-results/junitHtml"))
+    }
+}

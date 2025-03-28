@@ -1,0 +1,43 @@
+name: Run unit tests
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    pull-requests: read
+    issues: write
+    checks: write
+
+jobs:
+    run-unit-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v3
+            - name: Set up JDK
+              uses: actions/setup-java@v3
+              with:
+                  distribution: "temurin"
+                  java-version: "17"
+            - name: Setup gradle, run tests
+              uses: gradle/gradle-build-action@v2
+              with:
+                  arguments: "test"
+              timeout-minutes: 5
+            - name: Report test results (LRU)
+              uses: mikepenz/action-junit-report@v4
+              if: success() || failure()
+              with:
+                  report_paths: "**/TEST-LruCacheTest.xml"
+                  check_name: "LRU Cache Test Report"
+            - name: Report test results (SSML)
+              uses: mikepenz/action-junit-report@v4
+              if: success() || failure()
+              with:
+                  report_paths: "**/TEST-SsmlTest.xml"
+                  check_name: "SSML Test Report"
