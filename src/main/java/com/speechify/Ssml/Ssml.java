@@ -25,9 +25,9 @@ public class Ssml {
         }
         // Verify if the input string is valid SSML
 
-        /*if (!inputString.startsWith("<") || !inputString.endsWith(">")){
+        if (!inputString.startsWith("<") || !inputString.endsWith(">")){
             throw new IllegalArgumentException("Tags could not be parsed");
-        }*/
+        }
         if (inputString.startsWith("</") && inputString.endsWith(">")){
             throw new IllegalArgumentException("Tags could not be parsed");
         }
