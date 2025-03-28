@@ -13,6 +13,7 @@ package com.speechify.LRUCache;
 
 public class LRUCacheProvider {
     public static <T> LRUCache<T> createLRUCache(CacheLimits options) {
-        throw new UnsupportedOperationException("Implement this function");
+
+        return new LRUCacheImpl<T>(options.getMaxItemsCount());
     }
 }
