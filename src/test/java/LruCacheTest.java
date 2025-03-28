@@ -1,9 +1,9 @@
 import com.speechify.LRUCache.CacheLimits;
 import com.speechify.LRUCache.LRUCache;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.speechify.LRUCache.LRUCacheProvider.createLRUCache;
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class LruCacheTest {
@@ -12,7 +12,7 @@ public class LruCacheTest {
     public void getShouldReturnValueForExistingKey() {
         LRUCache<String> lruCache = createLRUCache(new CacheLimits(10));
         lruCache.set("foo", "bar");
-        assertEquals("bar", lruCache.get("foo"));
+        Assertions.assertEquals("bar", lruCache.get("foo"));
     }
 
     @Test
@@ -28,8 +28,8 @@ public class LruCacheTest {
         LRUCache<String> lruCache = createLRUCache(new CacheLimits(10));
         lruCache.set("foo", "foo");
         lruCache.set("baz", "baz");
-        assertEquals("foo", lruCache.get("foo"));
-        assertEquals("baz", lruCache.get("baz"));
+        Assertions.assertEquals("foo", lruCache.get("foo"));
+        Assertions.assertEquals("baz", lruCache.get("baz"));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class LruCacheTest {
         lruCache.set("foo", "bar");
         lruCache.set("baz", "bar");
         assertNull(lruCache.get("foo"));
-        assertEquals("bar", lruCache.get("baz"));
+        Assertions.assertEquals("bar", lruCache.get("baz"));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class LruCacheTest {
         lruCache.set("foo", "bar");
         lruCache.set("baz", "bar");
         lruCache.set("foo", "bar");
-        assertEquals("bar", lruCache.get("foo"));
+        Assertions.assertEquals("bar", lruCache.get("foo"));
         assertNull(lruCache.get("baz"));
     }
 
@@ -57,7 +57,7 @@ public class LruCacheTest {
         lruCache.set("foo", "bar");
         lruCache.set("baz", "bar");
         assertNull(lruCache.get("foo"));
-        assertEquals("bar", lruCache.get("baz"));
+        Assertions.assertEquals("bar", lruCache.get("baz"));
     }
 
     @Test
@@ -69,9 +69,9 @@ public class LruCacheTest {
         lruCache.set("foo", "bar3");
         lruCache.set("baz", "bar");
 
-        assertEquals("bar3", lruCache.get("foo"));
-        assertEquals("par", lruCache.get("bax"));
-        assertEquals("bar", lruCache.get("baz"));
+        Assertions.assertEquals("bar3", lruCache.get("foo"));
+        Assertions.assertEquals("par", lruCache.get("bax"));
+        Assertions.assertEquals("bar", lruCache.get("baz"));
     }
 
     @Test
@@ -82,9 +82,9 @@ public class LruCacheTest {
         lruCache.get("foo");
         lruCache.set("baz", "bar");
 
-        assertEquals("bar", lruCache.get("foo"));
+        Assertions.assertEquals("bar", lruCache.get("foo"));
         assertNull(lruCache.get("bar"));
-        assertEquals("bar", lruCache.get("baz"));
+        Assertions.assertEquals("bar", lruCache.get("baz"));
     }
 
     @Test
@@ -96,6 +96,6 @@ public class LruCacheTest {
         lruCache.get("1key");
         lruCache.set("3key", "3value");
 
-        assertEquals("1value", lruCache.get("1key"));
+        Assertions.assertEquals("1value", lruCache.get("1key"));
     }
 }
